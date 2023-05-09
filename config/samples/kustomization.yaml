@@ -1,0 +1,4 @@
+## Append samples of your project ##
+resources:
+- config.runtime.copilot.io_v1alpha1_registryconfig.yaml
+#+kubebuilder:scaffold:manifestskustomizesamples
