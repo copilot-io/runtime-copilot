@@ -1,0 +1,22 @@
+apiVersion: config.registry.runtime.copilot.io/v1alpha1
+kind: RegistryConfigs
+metadata:
+  labels:
+    app.kubernetes.io/name: registryconfigs
+    app.kubernetes.io/instance: registryconfigs-sample
+    app.kubernetes.io/part-of: runtime-copilot
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: runtime-copilot
+  name: registryconfigs-sample
+spec:
+  selector:
+    matchLabels:
+      app: registryconfigs-sample
+  template:
+    spec:
+      hostConfigs:
+        - server: "https://10.6.112.191"
+          capabilities:
+            - pull
+            - push
+          skip_verify: true

@@ -5,8 +5,40 @@ metadata:
   creationTimestamp: null
   name: manager-role
 rules:
+- resources:
+  - nodes
+  verbs:
+  - get
+  - list
+  - watch
 - apiGroups:
-  - config.runtime.copilot.io.my.domain
+  - config.registry.runtime.copilot.io
+  resources:
+  - noderegistryconfigs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - config.registry.runtime.copilot.io
+  resources:
+  - noderegistryconfigs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - config.registry.runtime.copilot.io
+  resources:
+  - noderegistryconfigs/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - config.registry.runtime.copilot.io
   resources:
   - registryconfigs
   verbs:
@@ -18,13 +50,13 @@ rules:
   - update
   - watch
 - apiGroups:
-  - config.runtime.copilot.io.my.domain
+  - config.registry.runtime.copilot.io
   resources:
   - registryconfigs/finalizers
   verbs:
   - update
 - apiGroups:
-  - config.runtime.copilot.io.my.domain
+  - config.registry.runtime.copilot.io
   resources:
   - registryconfigs/status
   verbs:

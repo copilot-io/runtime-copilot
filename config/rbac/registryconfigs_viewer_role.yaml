@@ -1,0 +1,27 @@
+# permissions for end users to view registryconfigs.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: registryconfigs-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: runtime-copilot
+    app.kubernetes.io/part-of: runtime-copilot
+    app.kubernetes.io/managed-by: kustomize
+  name: registryconfigs-viewer-role
+rules:
+- apiGroups:
+  - config.registry.runtime.copilot.io
+  resources:
+  - registryconfigs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - config.registry.runtime.copilot.io
+  resources:
+  - registryconfigs/status
+  verbs:
+  - get

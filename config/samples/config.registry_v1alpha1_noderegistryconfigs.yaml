@@ -1,0 +1,12 @@
+apiVersion: config.registry.runtime.copilot.io/v1alpha1
+kind: NodeRegistryConfigs
+metadata:
+  labels:
+    app.kubernetes.io/name: noderegistryconfigs
+    app.kubernetes.io/instance: noderegistryconfigs-sample
+    app.kubernetes.io/part-of: runtime-copilot
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: runtime-copilot
+  name: noderegistryconfigs-sample
+spec:
+  # TODO(user): Add fields here

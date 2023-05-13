@@ -1,0 +1,27 @@
+# permissions for end users to view noderegistryconfigs.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: noderegistryconfigs-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: runtime-copilot
+    app.kubernetes.io/part-of: runtime-copilot
+    app.kubernetes.io/managed-by: kustomize
+  name: noderegistryconfigs-viewer-role
+rules:
+- apiGroups:
+  - config.registry.runtime.copilot.io
+  resources:
+  - noderegistryconfigs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - config.registry.runtime.copilot.io
+  resources:
+  - noderegistryconfigs/status
+  verbs:
+  - get
