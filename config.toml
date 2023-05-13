@@ -1,0 +1,7 @@
+server = "https://10.6.112.191"
+
+[host]
+
+  [host."https://10.6.112.191"]
+    Capabilities = ["pull", "push"]
+    skip_verify = true

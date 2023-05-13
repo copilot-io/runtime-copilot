@@ -1,0 +1,70 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+jobs:
+  golangci:
+    name: Lint with golangci-lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.19
+      - uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.49.0
+  vertify:
+    name: Vertify import alias, vendor, codegen, crds
+    runs-on: ubuntu-latest
+    env:
+      GOPATH: ${{ github.workspace }}
+      WORKSPACE: ${{ github.workspace }}/src/github.com/lengrongfu/runtime-copilot
+    defaults:
+      run:
+        working-directory: ${{ env.WORKSPACE }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          path: ${{ env.WORKSPACE }}
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.19
+      - run: go mod tidy && go mod vendor
+      - run: hack/verify-import-aliases.sh
+      - run: hack/verify-vendor.sh
+      - run: hack/verify-crds.sh
+
+  build:
+    name: Build binary
+    needs: vertify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          # https://github.com/actions/checkout#fetch-all-history-for-all-tags-and-branches
+          fetch-depth: 0
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.19
+      - name: Compile
+        run: make build
+  test:
+    name: Unit test
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.19
+      - run: make test

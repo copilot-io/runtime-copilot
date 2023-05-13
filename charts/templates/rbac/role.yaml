@@ -1,0 +1,65 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- resources:
+  - nodes
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - config.registry.runtime.copilot.io
+  resources:
+  - noderegistryconfigs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - config.registry.runtime.copilot.io
+  resources:
+  - noderegistryconfigs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - config.registry.runtime.copilot.io
+  resources:
+  - noderegistryconfigs/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - config.registry.runtime.copilot.io
+  resources:
+  - registryconfigs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - config.registry.runtime.copilot.io
+  resources:
+  - registryconfigs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - config.registry.runtime.copilot.io
+  resources:
+  - registryconfigs/status
+  verbs:
+  - get
+  - patch
+  - update

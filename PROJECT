@@ -2,7 +2,7 @@
 # This file is used to track the info used to scaffold your project
 # and allow the plugins properly work.
 # More info: https://book.kubebuilder.io/reference/project-config.html
-domain: my.domain
+domain: runtime.copilot.io
 layout:
 - go.kubebuilder.io/v4
 projectName: runtime-copilot
@@ -12,9 +12,18 @@ resources:
     crdVersion: v1
     namespaced: true
   controller: true
-  domain: my.domain
-  group: config.runtime.copilot.io
-  kind: RegistryConfig
+  domain: runtime.copilot.io
+  group: config.registry
+  kind: RegistryConfigs
+  path: github.com/lengrongfu/runtime-copilot/api/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: runtime.copilot.io
+  group: config.registry
+  kind: NodeRegistryConfigs
   path: github.com/lengrongfu/runtime-copilot/api/v1alpha1
   version: v1alpha1
 version: "3"
