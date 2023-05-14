@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  charts:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2023-05-14T11:57:41.66006006Z"
+    description: A Helm chart for Kubernetes
+    digest: 26c39f194d8ed214235411a75d2472d38231ede5a1f01ee4739fed1e33448f3a
+    name: charts
+    type: application
+    urls:
+    - https://github.com/lengrongfu/runtime-copilot/releases/download/charts-0.1.0/charts-0.1.0.tgz
+    version: 0.1.0
+generated: "2023-05-14T11:57:41.66007186Z"
