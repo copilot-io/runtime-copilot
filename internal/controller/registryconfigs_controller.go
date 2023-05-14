@@ -100,6 +100,9 @@ func (r *RegistryConfigsReconciler) Reconcile(ctx context.Context, req ctrl.Requ
 	if err := r.syncRegistryConfigsStatus(ctx, registryConfigs, nodeList); err != nil {
 		return ctrl.Result{}, err
 	}
+	if registryConfigs.Status.State == configregistryv1alpha1.StatusStateSuccess {
+		return ctrl.Result{}, nil
+	}
 	return ctrl.Result{RequeueAfter: time.Second * 30}, nil
 }
 
