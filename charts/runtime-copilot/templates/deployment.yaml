@@ -1,18 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "charts.fullname" . }}-copilot
+  name: {{ include "charts.fullname" . }}-deploymment
   namespace: {{ .Release.Namespace | default "default"}}
   labels:
-    {{- include "charts.labels" . | nindent 4 }}
+    {{- include "charts.labels.controllermanagaer" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "charts.selectorLabels" . | nindent 6 }}
-      app.kubernetes.io/name: runtime-copilot
+      {{- include "charts.selectorLabels.controllermanagaer" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -20,8 +19,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "charts.selectorLabels" . | nindent 8 }}
-        app.kubernetes.io/name: runtime-copilot
+        {{- include "charts.selectorLabels.controllermanagaer" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -31,12 +29,13 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}-copilot
+        - name: {{ .Chart.Name }}-controller-manager
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.registry }}/{{ .Values.image.controller_repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command:
             - /copilot
+            - --leader-elect=true
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http

@@ -33,9 +33,18 @@ Create chart name and version as used by the chart label.
 {{/*
 Common labels
 */}}
-{{- define "charts.labels" -}}
+{{- define "charts.labels.daemon" -}}
 helm.sh/chart: {{ include "charts.chart" . }}
-{{ include "charts.selectorLabels" . }}
+{{ include "charts.selectorLabels.daemon" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{- define "charts.labels.controllermanagaer" -}}
+helm.sh/chart: {{ include "charts.chart" . }}
+{{ include "charts.selectorLabels.controllermanagaer" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,9 +54,14 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "charts.selectorLabels" -}}
+{{- define "charts.selectorLabels.daemon" -}}
 app.kubernetes.io/name: {{ include "charts.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/instance: {{ .Release.Name }}-daemon
+{{- end }}
+
+{{- define "charts.selectorLabels.controllermanagaer" -}}
+app.kubernetes.io/name: {{ include "charts.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}-deployment
 {{- end }}
 
 {{/*

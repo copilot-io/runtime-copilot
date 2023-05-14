@@ -4,17 +4,15 @@ metadata:
   name: {{ include "charts.fullname" . }}-daemon
   namespace: {{ .Release.Namespace | default "default"}}
   labels:
-      {{- include "charts.labels" . | nindent 4 }}
+      {{- include "charts.labels.daemon" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      {{- include "charts.selectorLabels" . | nindent 6 }}
-      app.kubernetes.io/name: runtime-daemon
+      {{- include "charts.selectorLabels.daemon" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "charts.selectorLabels" . | nindent 6 }}
-        app.kubernetes.io/name: runtime-daemon
+        {{- include "charts.selectorLabels.daemon" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -22,7 +20,7 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "charts.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.daemonPodSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}-daemon
           securityContext:

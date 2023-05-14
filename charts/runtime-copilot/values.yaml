@@ -30,6 +30,11 @@ podAnnotations: {}
 podSecurityContext:
   runAsNonRoot: true
 
+daemonPodSecurityContext:
+  runAsUser: 0
+  runAsGroup: 0
+  privileged: true
+
 securityContext:
    capabilities:
      drop:

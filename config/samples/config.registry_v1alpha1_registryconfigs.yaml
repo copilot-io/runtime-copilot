@@ -19,4 +19,5 @@ spec:
           capabilities:
             - pull
             - push
+            - resolve
           skip_verify: true
