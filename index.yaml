@@ -11,4 +11,15 @@ entries:
     urls:
     - https://github.com/lengrongfu/runtime-copilot/releases/download/charts-0.1.0/charts-0.1.0.tgz
     version: 0.1.0
-generated: "2023-05-14T11:57:41.66007186Z"
+  runtime-copilot:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2023-05-14T15:07:01.686597397Z"
+    description: A Helm chart for Kubernetes
+    digest: 8778bc15cf81b2114ccab47fce6b83b6130f51188cd80ec50fd9ec07fa134897
+    name: runtime-copilot
+    type: application
+    urls:
+    - https://github.com/lengrongfu/runtime-copilot/releases/download/runtime-copilot-0.1.0/runtime-copilot-0.1.0.tgz
+    version: 0.1.0
+generated: "2023-05-14T15:07:01.686605997Z"
