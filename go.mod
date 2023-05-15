@@ -9,7 +9,6 @@ require (
 	k8s.io/client-go v0.27.1
 	k8s.io/code-generator v0.27.1
 	k8s.io/klog/v2 v2.90.1
-	k8s.io/kubernetes v1.27.1
 	sigs.k8s.io/controller-runtime v0.15.0-alpha.0.0.20230511153903-92646a561578
 	sigs.k8s.io/controller-tools v0.12.0
 )

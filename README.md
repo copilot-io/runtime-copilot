@@ -3,6 +3,23 @@
 # runtime-copilot
 The main function of the runtime copilot is to assist the operation of the container runtime component (containerd), specifically for adding or deleting non-safe registries.
 
+## Introduction
+
+This project is a runtime copilot, auxiliary manager runtime, current function introduce the config insecure registry to runtime(such as: containerd、docker、cri-o), It mainly has the following functions:
+
+[ ] Manager insecure registry in runtime.
+[ ] Upgrade runtime version.
+[ ] Replace runtime with another runtime.
+[ ] Manager runtime plugins.
+
+### Manager insecure registry
+
+| Runtime | Support |
+| --- | --- |
+| containerd | Yes |
+| docker | No |
+| cri-o | No |
+
 ## Usage
 
 [Helm](https://helm.sh) must be installed to use the charts.  Please refer to
@@ -30,7 +47,7 @@ To uninstall the chart:
 We add `10.6..112.191` this insecret registry to containerd, we can define yaml content follow file.
 
 ```yaml
-apiVersion: config.registry.runtime.copilot.io/v1alpha1
+apiVersion: registry.runtime.x-copilot.io/v1alpha1
 kind: RegistryConfigs
 metadata:
   name: registryconfigs-sample
