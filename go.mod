@@ -1,11 +1,9 @@
-module github.com/lengrongfu/runtime-copilot
+module github.com/copilot-io/runtime-copilot
 
 go 1.19
 
 require (
 	github.com/BurntSushi/toml v0.3.1
-	github.com/onsi/ginkgo/v2 v2.9.4
-	github.com/onsi/gomega v1.27.6
 	k8s.io/api v0.27.1
 	k8s.io/apimachinery v0.27.1
 	k8s.io/client-go v0.27.1
@@ -29,7 +27,6 @@ require (
 	github.com/go-openapi/jsonpointer v0.19.6 // indirect
 	github.com/go-openapi/jsonreference v0.20.1 // indirect
 	github.com/go-openapi/swag v0.22.3 // indirect
-	github.com/go-task/slim-sprig v0.0.0-20230315185526-52ccab3ef572 // indirect
 	github.com/gobuffalo/flect v1.0.2 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
@@ -37,7 +34,6 @@ require (
 	github.com/google/gnostic v0.5.7-v3refs // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/google/gofuzz v1.1.0 // indirect
-	github.com/google/pprof v0.0.0-20210720184732-4bb14d4b1be1 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/imdario/mergo v0.3.6 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect

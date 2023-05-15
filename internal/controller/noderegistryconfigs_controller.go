@@ -28,7 +28,7 @@ import (
 	"reflect"
 
 	"github.com/BurntSushi/toml"
-	configregistryv1alpha1 "github.com/lengrongfu/runtime-copilot/api/v1alpha1"
+	configregistryv1alpha1 "github.com/copilot-io/runtime-copilot/api/v1alpha1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"

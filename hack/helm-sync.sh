@@ -2,7 +2,7 @@
 
 echo "start sync helm chart to runtime-copilot-helm-chart repo".
 
-git clone https://lengrongfu:${GITHUB_TOKEN}@github.com/lengrongfu/runtime-copilot-helm-charts.git
+git clone https://copilot-io:${GITHUB_TOKEN}@github.com/copilot-io/runtime-copilot-helm-charts.git
 
 cd runtime-copilot-helm-charts
 
@@ -16,4 +16,4 @@ fi
 
 git add .
 git commit -m "add helm chart"
-git push https://lengrongfu:${GITHUB_TOKEN}@github.com/lengrongfu/runtime-copilot-helm-charts.git main
+git push https://copilot-io:${GITHUB_TOKEN}@github.com/copilot-io/runtime-copilot-helm-charts.git main
