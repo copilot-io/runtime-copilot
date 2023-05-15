@@ -20,7 +20,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/lengrongfu/runtime-copilot/internal/utils"
+	"github.com/copilot-io/runtime-copilot/internal/utils"
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -31,7 +31,7 @@ import (
 	"strings"
 	"time"
 
-	configregistryv1alpha1 "github.com/lengrongfu/runtime-copilot/api/v1alpha1"
+	configregistryv1alpha1 "github.com/copilot-io/runtime-copilot/api/v1alpha1"
 )
 
 // RegistryConfigsReconciler reconciles a RegistryConfigs object

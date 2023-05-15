@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
-  name: registryconfigs.config.registry.runtime.copilot.io
+  name: registryconfigs.registry.runtime.x-copilot.io
 spec:
-  group: config.registry.runtime.copilot.io
+  group: registry.runtime.x-copilot.io
   names:
     kind: RegistryConfigs
     listKind: RegistryConfigsList

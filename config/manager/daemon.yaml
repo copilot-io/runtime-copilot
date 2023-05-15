@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: runtime-daemon
-          image: ghcr.io/lengrongfu/runtime-copilot/daemon:latest
+          image: ghcr.io/copilot-io/runtime-copilot/daemon:latest
           imagePullPolicy: IfNotPresent
           command:
             - /daemon

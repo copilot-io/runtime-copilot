@@ -50,7 +50,7 @@ spec:
         - /copilot
         args:
         - --leader-elect
-        image: ghcr.io/lengrongfu/runtime-copilot/controller-manager:latest
+        image: ghcr.io/copilot-io/runtime-copilot/controller-manager:latest
         name: manager
         securityContext:
           allowPrivilegeEscalation: false

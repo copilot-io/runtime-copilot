@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GOPATH: ${{ github.workspace }}
-      WORKSPACE: ${{ github.workspace }}/src/github.com/lengrongfu/runtime-copilot
+      WORKSPACE: ${{ github.workspace }}/src/github.com/copilot-io/runtime-copilot
     defaults:
       run:
         working-directory: ${{ env.WORKSPACE }}

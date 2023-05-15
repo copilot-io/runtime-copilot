@@ -8,16 +8,12 @@ Helm's [documentation](https://helm.sh/docs) to get started.
 
 Once Helm has been set up correctly, add the repo as follows:
 
-    helm repo add runtime-copilot https://lengrongfu.github.io/runtime-copilot
+    helm repo add runtime-copilot https://copilot-io.github.io/runtime-copilot
 
 If you is first time to use this repo, you need to run command as follows:
 
     helm repo update
     helm search repo runtime-copilot
-
-If you had already added this repo earlier, run `helm repo update` to retrieve
-the latest versions of the packages.  You can then run `helm search repo
-runtime-copilot` to see the charts.
 
 To install the runtime-copilot chart:
 

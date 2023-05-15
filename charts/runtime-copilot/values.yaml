@@ -6,8 +6,8 @@ replicaCount: 2
 
 image:
   registry: ghcr.io
-  controller_repository: lengrongfu/runtime-copilot/controller-manager
-  daemon_repository: lengrongfu/runtime-copilot/daemon
+  controller_repository: copilot-io/runtime-copilot/controller-manager
+  daemon_repository: copilot-io/runtime-copilot/daemon
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: latest
