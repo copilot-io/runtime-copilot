@@ -7,10 +7,12 @@ The main function of the runtime copilot is to assist the operation of the conta
 
 This project is a runtime copilot, auxiliary manager runtime, current function introduce the config insecure registry to runtime(such as: containerd、docker、cri-o), It mainly has the following functions:
 
-[ ] Manager insecure registry in runtime.
-[ ] Upgrade runtime version.
-[ ] Replace runtime with another runtime.
-[ ] Manager runtime plugins.
+
+
+- [ ] Manager insecure registry in runtime.
+- [ ] Upgrade runtime version.
+- [ ] Replace runtime with another runtime.
+- [ ] Manager runtime plugins.
 
 ### Manager insecure registry
 

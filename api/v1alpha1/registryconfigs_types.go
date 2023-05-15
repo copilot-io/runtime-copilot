@@ -23,7 +23,7 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// RegistryConfigsSpec defines the desired state of RegistryConfigs
+// RegistryConfigsSpec defines the desired state of RegistryConfigs.
 type RegistryConfigsSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
@@ -33,19 +33,19 @@ type RegistryConfigsSpec struct {
 	Template RegistryConfigsTemplate `json:"template,omitempty"`
 }
 
-// RegistryConfigsTemplate defines the template for the registry config
+// RegistryConfigsTemplate defines the template for the registry config.
 type RegistryConfigsTemplate struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              NodeHostConfigsSpec `json:"spec"`
 }
 
-// NodeHostConfigsSpec defines the host config for the registry
+// NodeHostConfigsSpec defines the host config for the registry.
 type NodeHostConfigsSpec struct {
 	RetryNum    int                      `json:"retry_num,omitempty"`
 	HostConfigs []NodeRegistryHostConfig `json:"hostConfigs"`
 }
 
-// RegistryConfigsStatus defines the observed state of RegistryConfigs
+// RegistryConfigsStatus defines the observed state of RegistryConfigs.
 type RegistryConfigsStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
@@ -67,7 +67,7 @@ type RuntimeNum struct {
 //+kubebuilder:subresource:status
 //+kubebuilder:resource:scope=Cluster
 
-// RegistryConfigs is the Schema for the registryconfigs API
+// RegistryConfigs is the Schema for the registryconfigs API.
 type RegistryConfigs struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -78,7 +78,7 @@ type RegistryConfigs struct {
 
 //+kubebuilder:object:root=true
 
-// RegistryConfigsList contains a list of RegistryConfigs
+// RegistryConfigsList contains a list of RegistryConfigs.
 type RegistryConfigsList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
