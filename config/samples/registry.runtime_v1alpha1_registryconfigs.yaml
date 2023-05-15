@@ -1,4 +1,4 @@
-apiVersion: config.registry.runtime.copilot.io/v1alpha1
+apiVersion: registry.runtime.x-copilot.io/v1alpha1
 kind: RegistryConfigs
 metadata:
   labels:
