@@ -21,13 +21,13 @@ import (
 )
 
 type (
-	// RuntimeType is the type of runtime
+	// RuntimeType is the type of runtime.
 	RuntimeType string
-	// CapabilitieType is the type of capability
+	// CapabilitieType is the type of capability.
 	CapabilitieType string
-	// StatusState is the state of status
+	// StatusState is the state of status.
 	StatusState string
-	// ConditionType is the type of condition
+	// ConditionType is the type of condition.
 	ConditionType string
 )
 
@@ -49,7 +49,7 @@ const (
 	ConditionTypeWriteDataError ConditionType = "WriteDataError"
 	ConditionTypeReadDataError  ConditionType = "ReadDataError"
 
-	// MaxRetryNum is the max retry num
+	// MaxRetryNum is the max retry num.
 	MaxRetryNum = 3
 )
 
@@ -68,7 +68,7 @@ func (ss StatusState) String() string {
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// NodeRegistryConfigsSpec defines the desired state of NodeRegistryConfigs
+// NodeRegistryConfigsSpec defines the desired state of NodeRegistryConfigs.
 type NodeRegistryConfigsSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
@@ -81,8 +81,6 @@ type NodeRegistryConfigsSpec struct {
 	RetryNum int `json:"retry_num,omitempty"`
 	// HostConfigs store the per-host configuration
 	HostConfigs []NodeRegistryHostConfig `json:"hostConfigs,omitempty"`
-	// HostConfig is registry config host config
-	//NodeRegistryHostConfig `json:",inline,omitempty"`
 }
 
 type NodeRegistryHostConfig struct {
@@ -96,7 +94,7 @@ type NodeRegistryHostConfig struct {
 	CaSecretRef  string            `json:"ca_secret_ref,omitempty"`
 }
 
-// NodeRegistryConfigsStatus defines the observed state of NodeRegistryConfigs
+// NodeRegistryConfigsStatus defines the observed state of NodeRegistryConfigs.
 type NodeRegistryConfigsStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
@@ -109,7 +107,7 @@ type NodeRegistryConfigsStatus struct {
 //+kubebuilder:subresource:status
 //+kubebuilder:resource:scope=Cluster
 
-// NodeRegistryConfigs is the Schema for the noderegistryconfigs API
+// NodeRegistryConfigs is the Schema for the noderegistryconfigs API.
 type NodeRegistryConfigs struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -120,7 +118,7 @@ type NodeRegistryConfigs struct {
 
 //+kubebuilder:object:root=true
 
-// NodeRegistryConfigsList contains a list of NodeRegistryConfigs
+// NodeRegistryConfigsList contains a list of NodeRegistryConfigs.
 type NodeRegistryConfigsList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

@@ -9,7 +9,7 @@ cd "${REPO_ROOT}"
 source "hack/util.sh"
 
 GOLANGCI_LINT_PKG="github.com/golangci/golangci-lint/cmd/golangci-lint"
-GOLANGCI_LINT_VER="v1.46.2"
+GOLANGCI_LINT_VER="v1.50.1"
 LINTER="golangci-lint"
 
 which ${LINTER} || util::install_tools ${GOLANGCI_LINT_PKG} ${GOLANGCI_LINT_VER}
@@ -24,3 +24,6 @@ else
   echo 'If the above warnings do not make sense, feel free to file an issue.'
   exit 1
 fi
+
+
+go install golang.org/x/tools/cmd/goimports@latest

@@ -20,22 +20,23 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/klog/v2"
 	"net/url"
 	"os"
 	"path/filepath"
 	"reflect"
 
-	"github.com/BurntSushi/toml"
 	configregistryv1alpha1 "github.com/copilot-io/runtime-copilot/api/v1alpha1"
+
+	"github.com/BurntSushi/toml"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/klog/v2"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 )
 
-// NodeRegistryConfigsReconciler reconciles a NodeRegistryConfigs object
+// NodeRegistryConfigsReconciler reconciles a NodeRegistryConfigs object.
 type NodeRegistryConfigsReconciler struct {
 	client.Client
 	Scheme *runtime.Scheme
@@ -117,8 +118,8 @@ func (r *NodeRegistryConfigsReconciler) Reconcile(ctx context.Context, req ctrl.
 	return ctrl.Result{}, nil
 }
 
-func (r *NodeRegistryConfigsReconciler) diffDifferent(old, new configregistryv1alpha1.NodeRegistryConfigs) []configregistryv1alpha1.NodeRegistryHostConfig {
-	oldHostConfigs, newHostConfigs := old.Spec.HostConfigs, new.Spec.HostConfigs
+func (r *NodeRegistryConfigsReconciler) diffDifferent(oldCR, newCR configregistryv1alpha1.NodeRegistryConfigs) []configregistryv1alpha1.NodeRegistryHostConfig {
+	oldHostConfigs, newHostConfigs := oldCR.Spec.HostConfigs, newCR.Spec.HostConfigs
 	oldHostConfigsMap, newHostConfigsMap := make(map[string]configregistryv1alpha1.NodeRegistryHostConfig), make(map[string]configregistryv1alpha1.NodeRegistryHostConfig)
 	for i, v := range oldHostConfigs {
 		oldHostConfigsMap[v.Server] = oldHostConfigs[i]
@@ -126,7 +127,7 @@ func (r *NodeRegistryConfigsReconciler) diffDifferent(old, new configregistryv1a
 	for i, v := range newHostConfigs {
 		newHostConfigsMap[v.Server] = newHostConfigs[i]
 	}
-	for k, _ := range newHostConfigsMap {
+	for k := range newHostConfigsMap {
 		delete(oldHostConfigsMap, k)
 	}
 	if len(oldHostConfigsMap) == 0 {
@@ -169,35 +170,8 @@ func (r *NodeRegistryConfigsReconciler) createOrUpdateRegistry(nodeRegistryConfi
 		nodeRegistryConfigs.Status.Conditions = make([]metav1.Condition, 0)
 	}
 	if _, err := os.Stat(r.HostRootDir); err != nil {
-		if !os.IsNotExist(err) {
-			nodeRegistryConfigs.Status.Conditions = append(nodeRegistryConfigs.Status.Conditions, metav1.Condition{
-				Type:               string(configregistryv1alpha1.ConditionTypeReadDataError),
-				Status:             metav1.ConditionFalse,
-				LastTransitionTime: metav1.Now(),
-				Reason:             string(configregistryv1alpha1.ConditionTypeReadDataError),
-				Message:            err.Error(),
-			})
-			return err
-		}
-		if err = os.MkdirAll(r.HostRootDir, 0755); err != nil {
-			nodeRegistryConfigs.Status.Conditions = append(nodeRegistryConfigs.Status.Conditions, metav1.Condition{
-				Type:               string(configregistryv1alpha1.ConditionTypeReadDataError),
-				Status:             metav1.ConditionFalse,
-				LastTransitionTime: metav1.Now(),
-				Reason:             string(configregistryv1alpha1.ConditionTypeReadDataError),
-				Message:            err.Error(),
-			})
-			return err
-		}
-	}
-	for _, host := range nodeRegistryConfigs.Spec.HostConfigs {
-		parse, _ := url.Parse(host.Server)
-		hostsDir := filepath.Join(r.HostRootDir, parse.Host)
-		if _, err := os.Stat(hostsDir); err != nil {
-			if !os.IsNotExist(err) {
-				return err
-			}
-			if err = os.MkdirAll(hostsDir, 0755); err != nil {
+		if os.IsNotExist(err) {
+			if err = os.MkdirAll(r.HostRootDir, 0o755); err != nil {
 				nodeRegistryConfigs.Status.Conditions = append(nodeRegistryConfigs.Status.Conditions, metav1.Condition{
 					Type:               string(configregistryv1alpha1.ConditionTypeReadDataError),
 					Status:             metav1.ConditionFalse,
@@ -205,6 +179,35 @@ func (r *NodeRegistryConfigsReconciler) createOrUpdateRegistry(nodeRegistryConfi
 					Reason:             string(configregistryv1alpha1.ConditionTypeReadDataError),
 					Message:            err.Error(),
 				})
+				return err
+			}
+		} else {
+			nodeRegistryConfigs.Status.Conditions = append(nodeRegistryConfigs.Status.Conditions, metav1.Condition{
+				Type:               string(configregistryv1alpha1.ConditionTypeReadDataError),
+				Status:             metav1.ConditionFalse,
+				LastTransitionTime: metav1.Now(),
+				Reason:             string(configregistryv1alpha1.ConditionTypeReadDataError),
+				Message:            err.Error(),
+			})
+		}
+		return err
+	}
+	for _, host := range nodeRegistryConfigs.Spec.HostConfigs {
+		parse, _ := url.Parse(host.Server)
+		hostsDir := filepath.Join(r.HostRootDir, parse.Host)
+		if _, err := os.Stat(hostsDir); err != nil {
+			if os.IsNotExist(err) {
+				if err = os.MkdirAll(hostsDir, 0o755); err != nil {
+					nodeRegistryConfigs.Status.Conditions = append(nodeRegistryConfigs.Status.Conditions, metav1.Condition{
+						Type:               string(configregistryv1alpha1.ConditionTypeReadDataError),
+						Status:             metav1.ConditionFalse,
+						LastTransitionTime: metav1.Now(),
+						Reason:             string(configregistryv1alpha1.ConditionTypeReadDataError),
+						Message:            err.Error(),
+					})
+					return err
+				}
+			} else {
 				return err
 			}
 		}
@@ -274,7 +277,7 @@ func (r *NodeRegistryConfigsReconciler) createOrUpdateRegistry(nodeRegistryConfi
 				})
 				return err
 			}
-			if err := os.WriteFile(filepath.Join(hostsDir, "hosts.toml"), buf.Bytes(), 0644); err != nil {
+			if err := os.WriteFile(filepath.Join(hostsDir, "hosts.toml"), buf.Bytes(), 0o644); err != nil {
 				klog.Errorf("encode toml error: %+v", err)
 				nodeRegistryConfigs.Status.Conditions = append(nodeRegistryConfigs.Status.Conditions, metav1.Condition{
 					Type:               string(configregistryv1alpha1.ConditionTypeWriteDataError),

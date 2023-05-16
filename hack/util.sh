@@ -53,7 +53,7 @@ function util::verify_go_version {
     IFS=" " read -ra go_version <<< "$(GOFLAGS='' go version)"
     if [[ "${MIN_Go_VERSION}" != $(echo -e "${MIN_Go_VERSION}\n${go_version[2]}" | sort -s -t. -k 1,1 -k 2,2n -k 3,3n | head -n1) && "${go_version[2]}" != "devel" ]]; then
       echo "Detected go version: ${go_version[*]}."
-      echo "kangaroo requires ${MIN_Go_VERSION} or greater."
+      echo "runtime-copilot requires ${MIN_Go_VERSION} or greater."
       echo "Please install ${MIN_Go_VERSION} or later."
       exit 1
     fi
@@ -175,7 +175,7 @@ function util::wait_file_exist() {
 # util::wait_pod_ready waits for pod state becomes ready until timeout.
 # Parmeters:
 #  - $1: pod label, such as "app=etcd"
-#  - $2: pod namespace, such as "kangaroo-system"
+#  - $2: pod namespace, such as "runtime-copilot-system"
 #  - $3: time out, such as "200s"
 function util::wait_pod_ready() {
     local pod_label_key=$1
@@ -404,8 +404,8 @@ function util::sync_offline_pakage() {
   charts-syncer sync --config ${PROJECT_PATH}/test/artifacts/offline-e2e/sync_offline_package.yaml
 
   # start docker registry
-  docker run -d -p 5011:5000 --restart=always --name registry-kangaroo release-ci.daocloud.io/ghippo/registry
-  container_id=$(docker ps | grep -E 'kangaroo.*host-control-plane' | awk '{print $1}')
+  docker run -d -p 5011:5000 --restart=always --name registry-runtime-copilot release-ci.daocloud.io/ghippo/registry
+  container_id=$(docker ps | grep -E 'runtime-copilot.*host-control-plane' | awk '{print $1}')
   sed -i 's/xx.x.xxx.xx:xxxx/'${REGISTRY_IP_PORT}'/g' "${PROJECT_PATH}"/test/artifacts/offline-e2e/config.toml
   docker cp "${PROJECT_PATH}"/test/artifacts/offline-e2e/config.toml "${container_id}":/etc/containerd/
   docker exec -i $container_id bash -c "systemctl restart containerd"
@@ -413,17 +413,17 @@ function util::sync_offline_pakage() {
   # charts-syncer load image
   yq -i ".source.intermediateBundlesPath = \"${BUNDLE_PATH}\"" ${PROJECT_PATH}/test/artifacts/offline-e2e/load-image.yaml
   yq -i ".target.containerRegistry = \"${REGISTRY_IP_PORT}\"" ${PROJECT_PATH}/test/artifacts/offline-e2e/load-image.yaml
-  yq -i ".target.containerRepository = \"offline.test.kangaroo/kangaroo\"" ${PROJECT_PATH}/test/artifacts/offline-e2e/load-image.yaml
+  yq -i ".target.containerRepository = \"offline.test.runtime-copilot/runtime-copilot\"" ${PROJECT_PATH}/test/artifacts/offline-e2e/load-image.yaml
   cd "${PROJECT_PATH}"
   charts-syncer sync --config ${PROJECT_PATH}/test/artifacts/offline-e2e/load-image.yaml
 
-  # unpack kangaroo.bundle.tar
+  # unpack runtime-copilot.bundle.tar
   cd "${BUNDLE_PATH}"
-  tar -xvf kangaroo_${HELM_VERSION}.bundle.tar
+  tar -xvf runtime-copilot_${HELM_VERSION}.bundle.tar
 }
 
-function util::cleanup_registry_kangaroo() {
-    registry_containerid=$(docker ps | grep "registry-kangaroo" | awk '{print $1}' || true)
+function util::cleanup_registry_runtime-copilot() {
+    registry_containerid=$(docker ps | grep "registry-runtime-copilot" | awk '{print $1}' || true)
     if [ -n "${registry_containerid}" ] ;then
       docker rm -f "${registry_containerid}"
     fi

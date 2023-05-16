@@ -20,21 +20,22 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
+	"time"
+
+	configregistryv1alpha1 "github.com/copilot-io/runtime-copilot/api/v1alpha1"
 	"github.com/copilot-io/runtime-copilot/internal/utils"
-	"k8s.io/api/core/v1"
+
+	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
-	"strings"
-	"time"
-
-	configregistryv1alpha1 "github.com/copilot-io/runtime-copilot/api/v1alpha1"
 )
 
-// RegistryConfigsReconciler reconciles a RegistryConfigs object
+// RegistryConfigsReconciler reconciles a RegistryConfigs object.
 type RegistryConfigsReconciler struct {
 	client.Client
 	Scheme *runtime.Scheme
@@ -132,8 +133,7 @@ func (r *RegistryConfigsReconciler) generateNodeRegistryConfigs(ctx context.Cont
 				NodeName:    node.Name,
 				Type:        r.convertRuntimeType(node.Status.NodeInfo.ContainerRuntimeVersion),
 				HostConfigs: registryConfigs.Spec.Template.Spec.HostConfigs,
-				//NodeRegistryHostConfig: registryConfigs.Spec.Template.Spec.NodeRegistryHostConfig,
-				RetryNum: registryConfigs.Spec.Template.Spec.RetryNum,
+				RetryNum:    registryConfigs.Spec.Template.Spec.RetryNum,
 			},
 		}
 
@@ -214,13 +214,13 @@ func (r *RegistryConfigsReconciler) countTotalNode(ctx context.Context, nodeList
 	runtimeNumsMap := make(map[configregistryv1alpha1.RuntimeType]int)
 	for _, node := range nodeList.Items {
 		runtimeType := r.convertRuntimeType(node.Status.NodeInfo.ContainerRuntimeVersion)
-		if _, ok := runtimeNumsMap[runtimeType]; ok {
-			runtimeNumsMap[runtimeType]++
-		} else {
+		if _, ok := runtimeNumsMap[runtimeType]; !ok {
 			runtimeNumsMap[runtimeType] = 1
+		} else {
+			runtimeNumsMap[runtimeType]++
 		}
 	}
-	var runtimeNums []configregistryv1alpha1.RuntimeNum
+	runtimeNums := make([]configregistryv1alpha1.RuntimeNum, 0)
 	for k, v := range runtimeNumsMap {
 		runtimeNums = append(runtimeNums, configregistryv1alpha1.RuntimeNum{
 			RuntimeType: k,
@@ -244,13 +244,13 @@ func (r *RegistryConfigsReconciler) countSuccessNode(ctx context.Context, nodeLi
 			continue
 		}
 		runtimeType := runtimeTypeMap[item.Spec.NodeName]
-		if _, ok := runtimeNumsMap[runtimeType]; ok {
-			runtimeNumsMap[runtimeType]++
-		} else {
+		if _, ok := runtimeNumsMap[runtimeType]; !ok {
 			runtimeNumsMap[runtimeType] = 1
+		} else {
+			runtimeNumsMap[runtimeType]++
 		}
 	}
-	var runtimeNums []configregistryv1alpha1.RuntimeNum
+	runtimeNums := make([]configregistryv1alpha1.RuntimeNum, 0)
 	for k, v := range runtimeNumsMap {
 		runtimeNums = append(runtimeNums, configregistryv1alpha1.RuntimeNum{
 			RuntimeType: k,
@@ -274,13 +274,13 @@ func (r *RegistryConfigsReconciler) countFailedNode(ctx context.Context, nodeLis
 			continue
 		}
 		runtimeType := runtimeTypeMap[item.Spec.NodeName]
-		if _, ok := runtimeNumsMap[runtimeType]; ok {
-			runtimeNumsMap[runtimeType]++
-		} else {
+		if _, ok := runtimeNumsMap[runtimeType]; !ok {
 			runtimeNumsMap[runtimeType] = 1
+		} else {
+			runtimeNumsMap[runtimeType]++
 		}
 	}
-	var runtimeNums []configregistryv1alpha1.RuntimeNum
+	runtimeNums := make([]configregistryv1alpha1.RuntimeNum, 0)
 	for k, v := range runtimeNumsMap {
 		runtimeNums = append(runtimeNums, configregistryv1alpha1.RuntimeNum{
 			RuntimeType: k,
@@ -304,13 +304,13 @@ func (r *RegistryConfigsReconciler) countRunningNode(ctx context.Context, nodeLi
 			continue
 		}
 		runtimeType := runtimeTypeMap[item.Spec.NodeName]
-		if _, ok := runtimeNumsMap[runtimeType]; ok {
-			runtimeNumsMap[runtimeType]++
-		} else {
+		if _, ok := runtimeNumsMap[runtimeType]; !ok {
 			runtimeNumsMap[runtimeType] = 1
+		} else {
+			runtimeNumsMap[runtimeType]++
 		}
 	}
-	var runtimeNums []configregistryv1alpha1.RuntimeNum
+	runtimeNums := make([]configregistryv1alpha1.RuntimeNum, 0)
 	for k, v := range runtimeNumsMap {
 		runtimeNums = append(runtimeNums, configregistryv1alpha1.RuntimeNum{
 			RuntimeType: k,
